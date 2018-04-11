@@ -1,10 +1,13 @@
-package com.example.omer.moviesapp;
+package com.example.omer.moviesapp.search;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.example.omer.moviesapp.Movie;
+import com.example.omer.moviesapp.R;
 
 import java.util.List;
 

@@ -1,14 +1,8 @@
-package com.example.omer.moviesapp;
+package com.example.omer.moviesapp.search;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -17,8 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
+import com.example.omer.moviesapp.Movie;
+import com.example.omer.moviesapp.R;
+
 import java.net.URL;
 import java.util.List;
 
@@ -27,7 +22,7 @@ import java.util.List;
  * Created by Omer on 10/04/2018.
  */
 
-class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     RecyclerView recyclerView;
     List<Movie> listOfMovies;

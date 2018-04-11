@@ -8,17 +8,17 @@ import retrofit2.Response;
  * Created by Omer on 10/04/2018.
  */
 
-class MoviesRepository {
+public class MoviesRepository {
 
     private ServerCall serverCall;
     private static final String API_KEY = "47670a230cbfe18bf88b7f57d26ae7c4";
 
-    MoviesRepository(ServerCall serverCall) {
+    public MoviesRepository(ServerCall serverCall) {
         this.serverCall = serverCall;
     }
 
 
-    void getListOfMovies(String searchParameter, final GetMoviesCallback getMoviesCallback) {
+    public void getListOfMovies(String searchParameter, final GetMoviesCallback getMoviesCallback) {
         serverCall.getListOfMovies(API_KEY, searchParameter).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
