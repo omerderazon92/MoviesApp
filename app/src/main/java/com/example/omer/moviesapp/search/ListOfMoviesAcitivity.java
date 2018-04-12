@@ -28,7 +28,7 @@ public class ListOfMoviesAcitivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         final List<Movie> list = (List<Movie>) intent.getSerializableExtra("list");
-        mAdapter = new MoviesAdapter(ListOfMoviesAcitivity.this,  list, mRecyclerView);
+        mAdapter = new SearchedMoviesAdapter(ListOfMoviesAcitivity.this,  list, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
 
     }

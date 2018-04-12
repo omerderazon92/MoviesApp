@@ -7,7 +7,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 
-class PictureDownloadHendler {
+public class PictureDownloadHendler {
 
     String posterPath;
     Context context;

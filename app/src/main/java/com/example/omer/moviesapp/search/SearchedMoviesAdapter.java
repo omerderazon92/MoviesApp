@@ -1,9 +1,6 @@
 package com.example.omer.moviesapp.search;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Picture;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -14,25 +11,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.omer.moviesapp.GetMoviesCallback;
 import com.example.omer.moviesapp.GetPictureCALLBACK;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
 import com.squareup.picasso.RequestCreator;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
-import retrofit2.http.GET;
 
 
 /**
  * Created by Omer on 10/04/2018.
  */
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
+public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAdapter.ViewHolder> {
 
     RecyclerView recyclerView;
     List<Movie> listOfMovies;
@@ -41,15 +33,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     int mExpandedPosition = -1;
 
 
-    public MoviesAdapter(Context context, List<Movie> list, RecyclerView recyclerView) {
+    public SearchedMoviesAdapter(Context context, List<Movie> list, RecyclerView recyclerView) {
         listOfMovies = list;
         this.context = context;
         this.recyclerView = recyclerView;
-    }
-
-    public MoviesAdapter(Context context, List<Movie> list) {
-        listOfMovies = list;
-        this.context = context;
     }
 
     @Override

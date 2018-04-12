@@ -1,11 +1,9 @@
 package com.example.omer.moviesapp.top_rated_movie;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +14,7 @@ import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.MoviesRepository;
 import com.example.omer.moviesapp.R;
 import com.example.omer.moviesapp.ServerCall;
-import com.example.omer.moviesapp.search.ListOfMoviesAcitivity;
-import com.example.omer.moviesapp.search.MoviesAdapter;
+import com.example.omer.moviesapp.search.SearchedMoviesAdapter;
 
 import java.util.List;
 
@@ -60,10 +57,10 @@ public class TopRatedFragment extends Fragment {
             @Override
             public void onMoviesReceived(List<Movie> movies) {
                 mRecyclerView = view.findViewById(R.id.list_of_top_rated_movies_recycler_view);
-                mLayoutManager = new LinearLayoutManager(TopRatedFragment.this.getContext());
+                mLayoutManager = new GridLayoutManager(TopRatedFragment.this.getContext(), 3);
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setHasFixedSize(true);
-                mAdapter = new MoviesAdapter(TopRatedFragment.this.getContext(), movies);
+                mAdapter = new TopRatedMoviesAdapter(movies, TopRatedFragment.this.getContext());
                 mRecyclerView.setAdapter(mAdapter);
             }
 
