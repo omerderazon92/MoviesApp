@@ -35,4 +35,20 @@ public class MoviesRepository {
         });
 
     }
+
+    public void getTopRatedMovie(final GetMoviesCallback getMoviesCallback) {
+        serverCall.getTopRatedMovies(API_KEY).enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    getMoviesCallback.onMoviesReceived(response.body().results);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+
+            }
+        });
+    }
 }

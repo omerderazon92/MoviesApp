@@ -1,6 +1,8 @@
 package com.example.omer.moviesapp.search;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -29,11 +33,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     Context context;
     URL url;
     int mExpandedPosition = -1;
+    String BASE_URL_FOR_PICTURES = "http://image.tmdb.org/t/p";
 
     public MoviesAdapter(Context context, List<Movie> list, RecyclerView recyclerView) {
         listOfMovies = list;
         this.context = context;
         this.recyclerView = recyclerView;
+    }
+
+    public MoviesAdapter(Context context, List<Movie> list) {
+        listOfMovies = list;
+        this.context = context;
     }
 
     @Override
@@ -44,6 +54,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
 
         holder.titleText.setText(listOfMovies.get(position).getTitle());
         holder.movie_information.setText(listOfMovies.get(position).getOverview());
