@@ -3,6 +3,7 @@ package com.example.omer.moviesapp.search;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Picture;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -13,13 +14,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.omer.moviesapp.GetMoviesCallback;
+import com.example.omer.moviesapp.GetPictureCALLBACK;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
+import com.squareup.picasso.RequestCreator;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+
+import retrofit2.http.GET;
 
 
 /**
@@ -33,7 +39,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     Context context;
     URL url;
     int mExpandedPosition = -1;
-    String BASE_URL_FOR_PICTURES = "http://image.tmdb.org/t/p";
+
 
     public MoviesAdapter(Context context, List<Movie> list, RecyclerView recyclerView) {
         listOfMovies = list;
@@ -54,6 +60,20 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+
+        PictureDownloadHendler pictureDownloadHendler = new PictureDownloadHendler(listOfMovies.get(position).getPosterPath(), context);
+        pictureDownloadHendler.GetImageFromURL(new GetPictureCALLBACK() {
+            @Override
+            public void onMoviesReceived(RequestCreator requestCreator) {
+                requestCreator.into(holder.moviePicutre);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
 
 
         holder.titleText.setText(listOfMovies.get(position).getTitle());
