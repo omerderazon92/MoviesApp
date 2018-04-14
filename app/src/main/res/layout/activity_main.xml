@@ -6,26 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.omer.moviesapp.MainActivity">
 
-    <TextView
-        android:id="@+id/text_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Search your desired movie please" />
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/navigation_menu" />
 
-    <EditText
-        android:id="@+id/place_for_search"
-        android:layout_width="250dp"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_menu"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/text_title"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_items">
 
-    <Button
-        android:id="@+id/ssNq"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/place_for_search"
-        android:layout_centerHorizontal="true"
-        android:text="search" />
+    </android.support.design.widget.BottomNavigationView>
 
 </RelativeLayout>

@@ -2,11 +2,20 @@ package com.example.omer.moviesapp;
 
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.omer.moviesapp.search.SearchFragment;
+import com.example.omer.moviesapp.top_rated_movie.TopRatedFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,45 +25,51 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    EditText key_words_to_search;
-    Button button;
-    public static final String MOVIE_DATABASE_BASE_URL = "https://api.themoviedb.org/3/";
+
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bottomNavigationView = findViewById(R.id.navigation_menu);
+        bottomNavigationView.setSelectedItemId(R.id.menu_top_rated);
+
+        Fragment topRatedFragment = new TopRatedFragment();
+        FragmentManager fm = getSupportFragmentManager();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container, topRatedFragment);
+        ft.commit();
 
 
-        key_words_to_search = (EditText) findViewById(R.id.place_for_search);
-        button = (Button) findViewById(R.id.ssNq);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MOVIE_DATABASE_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ServerCall serverCall = retrofit.create(ServerCall.class);
-
-        final MoviesRepository moviesRepository = new MoviesRepository(serverCall);
-
-        button.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                String keyWordsToSearch = String.valueOf(key_words_to_search.getText());
-                moviesRepository.getListOfMovies(keyWordsToSearch, new GetMoviesCallback() {
-                    @Override
-                    public void onMoviesReceived(List<Movie> movies) {
-                        Intent intent = new Intent(MainActivity.this, ListOfMoviesAcitivity.class);
-                        intent.putExtra("list", (Serializable) movies);
-                        startActivity(intent);
-                    }
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_search:
+                        Fragment searchFragment = new SearchFragment();
+                        FragmentManager fm = getSupportFragmentManager();
 
-                    @Override
-                    public void onDataNotAvailable() {
+                        FragmentTransaction ft = fm.beginTransaction();
+                        ft.replace(R.id.fragment_container, searchFragment);
+                        ft.commit();
+                        break;
+                    case R.id.menu_fav:
 
-                    }
-                });
+
+                    case R.id.menu_top_rated:
+
+                        Fragment topRatedFragment = new TopRatedFragment();
+                        FragmentManager fm2 = getSupportFragmentManager();
+
+                        FragmentTransaction ft2 = fm2.beginTransaction();
+                        ft2.replace(R.id.fragment_container, topRatedFragment);
+                        ft2.commit();
+                        break;
+                }
+
+                return true;
             }
         });
 

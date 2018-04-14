@@ -1,10 +1,13 @@
-package com.example.omer.moviesapp;
+package com.example.omer.moviesapp.search;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.example.omer.moviesapp.Movie;
+import com.example.omer.moviesapp.R;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class ListOfMoviesAcitivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         final List<Movie> list = (List<Movie>) intent.getSerializableExtra("list");
-        mAdapter = new MoviesAdapter(ListOfMoviesAcitivity.this,  list, mRecyclerView);
+        mAdapter = new SearchedMoviesAdapter(ListOfMoviesAcitivity.this,  list, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
 
     }
