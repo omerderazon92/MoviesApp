@@ -13,26 +13,28 @@ import android.widget.Toast;
 import com.example.omer.moviesapp.GetMoviesCallback;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.MoviesRepository;
+import com.example.omer.moviesapp.MoviesServiceProvider;
 import com.example.omer.moviesapp.R;
-import com.example.omer.moviesapp.ServerCall;
 
 import java.util.List;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class TopRatedFragment extends Fragment {
 
-    public static final String MOVIE_DATABASE_BASE_URL = "https://api.themoviedb.org/3/";
     private static final String API_KEY = "47670a230cbfe18bf88b7f57d26ae7c4";
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private MoviesRepository moviesRepository;
 
     public TopRatedFragment() {
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        moviesRepository = new MoviesRepository(MoviesServiceProvider.getMoviesService());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,14 +45,6 @@ public class TopRatedFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MOVIE_DATABASE_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ServerCall serverCall = retrofit.create(ServerCall.class);
-
-        final MoviesRepository moviesRepository = new MoviesRepository(serverCall);
         moviesRepository.getTopRatedMovie(new GetMoviesCallback() {
             @Override
             public void onMoviesReceived(List<Movie> movies) {

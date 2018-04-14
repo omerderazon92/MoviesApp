@@ -10,16 +10,16 @@ import retrofit2.Response;
 
 public class MoviesRepository {
 
-    private ServerCall serverCall;
+    private MoviesService moviesService;
     private static final String API_KEY = "47670a230cbfe18bf88b7f57d26ae7c4";
 
-    public MoviesRepository(ServerCall serverCall) {
-        this.serverCall = serverCall;
+    public MoviesRepository(MoviesService moviesService) {
+        this.moviesService = moviesService;
     }
 
 
     public void getListOfMovies(String searchParameter, final GetMoviesCallback getMoviesCallback) {
-        serverCall.getListOfMovies(API_KEY, searchParameter).enqueue(new Callback<MovieResponse>() {
+        moviesService.getListOfMovies(API_KEY, searchParameter).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -37,7 +37,7 @@ public class MoviesRepository {
     }
 
     public void getTopRatedMovie(final GetMoviesCallback getMoviesCallback) {
-        serverCall.getTopRatedMovies(API_KEY).enqueue(new Callback<MovieResponse>() {
+        moviesService.getTopRatedMovies(API_KEY).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

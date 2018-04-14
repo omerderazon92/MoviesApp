@@ -13,21 +13,17 @@ import android.widget.EditText;
 import com.example.omer.moviesapp.GetMoviesCallback;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.MoviesRepository;
+import com.example.omer.moviesapp.MoviesServiceProvider;
 import com.example.omer.moviesapp.R;
-import com.example.omer.moviesapp.ServerCall;
 
 import java.io.Serializable;
 import java.util.List;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class SearchFragment extends Fragment {
 
     EditText keyWordsToSearchEditTextView;
     Button button;
-    public static final String MOVIE_DATABASE_BASE_URL = "https://api.themoviedb.org/3/";
     MoviesRepository moviesRepository;
 
 
@@ -36,22 +32,15 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        moviesRepository = new MoviesRepository(MoviesServiceProvider.getMoviesService());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_search, container, false);
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MOVIE_DATABASE_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ServerCall serverCall = retrofit.create(ServerCall.class);
-        moviesRepository = new MoviesRepository(serverCall);
-
-
-        return view;
+        return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     @Override
