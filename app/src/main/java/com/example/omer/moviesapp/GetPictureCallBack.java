@@ -10,9 +10,9 @@ import java.util.List;
  * Created by Omer on 12/04/2018.
  */
 
-public interface GetPictureCALLBACK {
+public interface GetPictureCallBack {
 
-    void onMoviesReceived(RequestCreator requestCreator);
+    void onPictureLoaded(RequestCreator requestCreator);
 
     void onDataNotAvailable();
 }

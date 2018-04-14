@@ -1,17 +1,19 @@
 package com.example.omer.moviesapp.top_rated_movie;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.omer.moviesapp.GetPictureCALLBACK;
+import com.example.omer.moviesapp.GetPictureCallBack;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
 import com.example.omer.moviesapp.search.PictureDownloadHendler;
-import com.example.omer.moviesapp.search.SearchedMoviesAdapter;
 import com.squareup.picasso.RequestCreator;
 
 import java.util.List;
@@ -20,9 +22,10 @@ import java.util.List;
  * Created by Omer on 12/04/2018.
  */
 
-public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAdapter.ViewHolder> {
+public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAdapter.MovieViewHoler> {
     List<Movie> listOfMovies;
     Context context;
+    Fragment newFragment = new InfoOfMovieFragment();
 
     public TopRatedMoviesAdapter(List<Movie> list, Context context) {
         this.listOfMovies = list;
@@ -30,18 +33,18 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
     }
 
     @Override
-    public TopRatedMoviesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MovieViewHoler onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_rated_card_view, parent, false);
-        return new TopRatedMoviesAdapter.ViewHolder(view);
+        return new MovieViewHoler(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBindViewHolder(final TopRatedMoviesAdapter.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(final MovieViewHoler holder, final int position) {
         PictureDownloadHendler pictureDownloadHendler = new PictureDownloadHendler(listOfMovies.get(position).getPosterPath(), context);
-        pictureDownloadHendler.GetImageFromURL(new GetPictureCALLBACK() {
+        pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
             @Override
-            public void onMoviesReceived(RequestCreator requestCreator) {
+            public void onPictureLoaded(RequestCreator requestCreator) {
                 requestCreator.into(holder.moviePicture);
             }
 
@@ -51,6 +54,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
             }
         });
 
+
     }
 
     @Override
@@ -58,11 +62,11 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
         return listOfMovies.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHoler extends RecyclerView.ViewHolder {
 
         ImageView moviePicture;
 
-        public ViewHolder(View itemView) {
+        public MovieViewHoler(View itemView) {
             super(itemView);
             moviePicture = itemView.findViewById(R.id.movie_top_rated);
         }

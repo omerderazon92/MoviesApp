@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.omer.moviesapp.GetMoviesCallback;
+import com.example.omer.moviesapp.MainActivity;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.MoviesRepository;
 import com.example.omer.moviesapp.R;
@@ -57,7 +60,7 @@ public class TopRatedFragment extends Fragment {
             @Override
             public void onMoviesReceived(List<Movie> movies) {
                 mRecyclerView = view.findViewById(R.id.list_of_top_rated_movies_recycler_view);
-                mLayoutManager = new GridLayoutManager(TopRatedFragment.this.getContext(), 3);
+                mLayoutManager = new GridLayoutManager(TopRatedFragment.this.getContext(), 2);
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setHasFixedSize(true);
                 mAdapter = new TopRatedMoviesAdapter(movies, TopRatedFragment.this.getContext());
@@ -66,6 +69,7 @@ public class TopRatedFragment extends Fragment {
 
             @Override
             public void onDataNotAvailable() {
+                Toast.makeText(TopRatedFragment.this.getContext(), "Eroor loading movies", Toast.LENGTH_SHORT).show();
 
             }
         });

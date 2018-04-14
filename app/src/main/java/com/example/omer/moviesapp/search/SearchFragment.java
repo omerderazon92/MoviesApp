@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchFragment extends Fragment {
 
-    EditText key_words_to_search;
+    EditText keyWordsToSearchEditTextView;
     Button button;
     public static final String MOVIE_DATABASE_BASE_URL = "https://api.themoviedb.org/3/";
 
@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        key_words_to_search = view.findViewById(R.id.place_for_search);
+        keyWordsToSearchEditTextView = view.findViewById(R.id.place_for_search);
         button = view.findViewById(R.id.ssNq);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -59,7 +59,7 @@ public class SearchFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String keyWordsToSearch = String.valueOf(key_words_to_search.getText());
+                String keyWordsToSearch = String.valueOf(SearchFragment.this.keyWordsToSearchEditTextView.getText());
                 moviesRepository.getListOfMovies(keyWordsToSearch, new GetMoviesCallback() {
                     @Override
                     public void onMoviesReceived(List<Movie> movies) {

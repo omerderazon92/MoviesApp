@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.omer.moviesapp.GetPictureCALLBACK;
+import com.example.omer.moviesapp.GetPictureCallBack;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
 import com.squareup.picasso.RequestCreator;
@@ -50,9 +50,9 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
 
 
         PictureDownloadHendler pictureDownloadHendler = new PictureDownloadHendler(listOfMovies.get(position).getPosterPath(), context);
-        pictureDownloadHendler.GetImageFromURL(new GetPictureCALLBACK() {
+        pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
             @Override
-            public void onMoviesReceived(RequestCreator requestCreator) {
+            public void onPictureLoaded(RequestCreator requestCreator) {
                 requestCreator.into(holder.moviePicutre);
             }
 
@@ -62,11 +62,13 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
             }
         });
 
-
         holder.titleText.setText(listOfMovies.get(position).getTitle());
         holder.movie_information.setText(listOfMovies.get(position).getOverview());
+        holder.titleTextOfInformation.setText(listOfMovies.get(position).getTitle());
+
         final boolean isExpanded = position == mExpandedPosition;
         holder.view.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.titleText.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
         holder.itemView.setActivated(isExpanded);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -75,6 +77,7 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
                 mExpandedPosition = isExpanded ? -1 : position;
                 TransitionManager.beginDelayedTransition(recyclerView);
                 notifyItemChanged(position);
+
             }
         });
 
@@ -88,6 +91,7 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView titleText;
+        public TextView titleTextOfInformation;
         public TextView movie_information;
         public ImageView moviePicutre;
         public View view;
@@ -98,6 +102,7 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
             movie_information = (TextView) itemView.findViewById(R.id.movie_information);
             moviePicutre = (ImageView) itemView.findViewById(R.id.movie_picture);
             view = (View) itemView.findViewById(R.id.cheky_check);
+            titleTextOfInformation = (TextView) itemView.findViewById(R.id.title_text_movie_information);
         }
     }
 }

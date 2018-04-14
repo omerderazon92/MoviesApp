@@ -47,6 +47,7 @@ public class MoviesRepository {
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
+                getMoviesCallback.onDataNotAvailable();
 
             }
         });

@@ -10,8 +10,11 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Search your desired movie please" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Search your desired movie please"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/place_for_search"

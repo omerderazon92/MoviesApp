@@ -2,7 +2,7 @@ package com.example.omer.moviesapp.search;
 
 import android.content.Context;
 
-import com.example.omer.moviesapp.GetPictureCALLBACK;
+import com.example.omer.moviesapp.GetPictureCallBack;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -18,8 +18,8 @@ public class PictureDownloadHendler {
         this.context = context;
     }
 
-    public void GetImageFromURL(GetPictureCALLBACK getPictureCALLBACK) {
+    public void GetImageFromURL(GetPictureCallBack getPictureCALLBACK) {
         final RequestCreator load = Picasso.with(context).load(BASE_URL_FOR_PICTURES + posterPath);
-        getPictureCALLBACK.onMoviesReceived(load);
+        getPictureCALLBACK.onPictureLoaded(load);
     }
 }
