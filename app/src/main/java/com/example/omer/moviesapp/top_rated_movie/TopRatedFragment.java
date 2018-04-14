@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.omer.moviesapp.GetMoviesCallback;
-import com.example.omer.moviesapp.MainActivity;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.MoviesRepository;
 import com.example.omer.moviesapp.R;
 import com.example.omer.moviesapp.ServerCall;
-import com.example.omer.moviesapp.search.SearchedMoviesAdapter;
 
 import java.util.List;
 
@@ -33,27 +30,14 @@ public class TopRatedFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    MoviesRepository moviesRepository;
-
     public TopRatedFragment() {
-        this.moviesRepository = null;
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View inflate = inflater.inflate(R.layout.fragment_top_rated, container, false);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MOVIE_DATABASE_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ServerCall serverCall = retrofit.create(ServerCall.class);
-
-        final MoviesRepository moviesRepository = new MoviesRepository(serverCall);
-        return inflate;
+        return inflater.inflate(R.layout.fragment_top_rated, container, false);
     }
 
     @Override
@@ -66,11 +50,13 @@ public class TopRatedFragment extends Fragment {
 
         ServerCall serverCall = retrofit.create(ServerCall.class);
 
-        moviesRepository = new MoviesRepository(serverCall);
+        final MoviesRepository moviesRepository = new MoviesRepository(serverCall);
         moviesRepository.getTopRatedMovie(new GetMoviesCallback() {
             @Override
             public void onMoviesReceived(List<Movie> movies) {
                 mRecyclerView = view.findViewById(R.id.list_of_top_rated_movies_recycler_view);
+                ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(TopRatedFragment.this.getContext(), R.dimen.cardview_default_radius);
+                mRecyclerView.addItemDecoration(itemDecoration);
                 mLayoutManager = new GridLayoutManager(TopRatedFragment.this.getContext(), 2);
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setHasFixedSize(true);

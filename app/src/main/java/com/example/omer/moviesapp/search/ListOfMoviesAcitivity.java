@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
+import com.example.omer.moviesapp.top_rated_movie.ItemOffsetDecoration;
 
 import java.util.List;
 
@@ -26,9 +27,11 @@ public class ListOfMoviesAcitivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.list_of_movies_recycler_view);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(ListOfMoviesAcitivity.this, R.dimen.cardview_default_radius);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setHasFixedSize(true);
         final List<Movie> list = (List<Movie>) intent.getSerializableExtra("list");
-        mAdapter = new SearchedMoviesAdapter(ListOfMoviesAcitivity.this,  list, mRecyclerView);
+        mAdapter = new SearchedMoviesAdapter(ListOfMoviesAcitivity.this, list, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
 
     }

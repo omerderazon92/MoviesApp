@@ -3,13 +3,16 @@ package com.example.omer.moviesapp.search;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.omer.moviesapp.GetPictureCallBack;
 import com.example.omer.moviesapp.Movie;
@@ -47,8 +50,6 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
-
         PictureDownloadHandler pictureDownloadHendler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
         pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
             @Override
@@ -65,6 +66,17 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
         holder.titleText.setText(listOfMovies.get(position).getTitle());
         holder.movie_information.setText(listOfMovies.get(position).getOverview());
         holder.titleTextOfInformation.setText(listOfMovies.get(position).getTitle());
+        holder.toggleButton.setChecked(false);
+        holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.transperent_star));
+        holder.toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.yellow_star));
+                else
+                    holder.toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.transperent_star));
+            }
+        });
 
         final boolean isExpanded = position == mExpandedPosition;
         holder.view.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -77,10 +89,8 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
                 mExpandedPosition = isExpanded ? -1 : position;
                 TransitionManager.beginDelayedTransition(recyclerView);
                 notifyItemChanged(position);
-
             }
         });
-
     }
 
     @Override
@@ -95,6 +105,7 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
         public TextView movie_information;
         public ImageView moviePicutre;
         public View view;
+        private ToggleButton toggleButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -103,6 +114,7 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
             moviePicutre = (ImageView) itemView.findViewById(R.id.movie_picture);
             view = (View) itemView.findViewById(R.id.cheky_check);
             titleTextOfInformation = (TextView) itemView.findViewById(R.id.title_text_movie_information);
+            toggleButton = itemView.findViewById(R.id.favorite_button);
         }
     }
 }
