@@ -7,13 +7,13 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 
-public class PictureDownloadHendler {
+public class PictureDownloadHandler {
 
     String posterPath;
     Context context;
     String BASE_URL_FOR_PICTURES = "https://image.tmdb.org/t/p/w500";
 
-    public PictureDownloadHendler(String posterPath, Context context) {
+    public PictureDownloadHandler(String posterPath, Context context) {
         this.posterPath = posterPath;
         this.context = context;
     }

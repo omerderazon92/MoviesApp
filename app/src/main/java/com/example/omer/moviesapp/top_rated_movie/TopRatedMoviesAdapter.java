@@ -1,8 +1,6 @@
 package com.example.omer.moviesapp.top_rated_movie;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +11,7 @@ import android.widget.ImageView;
 import com.example.omer.moviesapp.GetPictureCallBack;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
-import com.example.omer.moviesapp.search.PictureDownloadHendler;
+import com.example.omer.moviesapp.search.PictureDownloadHandler;
 import com.squareup.picasso.RequestCreator;
 
 import java.util.List;
@@ -38,11 +36,10 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
         return new MovieViewHoler(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final MovieViewHoler holder, final int position) {
-        PictureDownloadHendler pictureDownloadHendler = new PictureDownloadHendler(listOfMovies.get(position).getPosterPath(), context);
-        pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
+        PictureDownloadHandler pictureDownloadHandler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
+        pictureDownloadHandler.GetImageFromURL(new GetPictureCallBack() {
             @Override
             public void onPictureLoaded(RequestCreator requestCreator) {
                 requestCreator.into(holder.moviePicture);
@@ -53,8 +50,6 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
             }
         });
-
-
     }
 
     @Override
