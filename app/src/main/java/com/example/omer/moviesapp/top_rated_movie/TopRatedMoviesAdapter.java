@@ -33,14 +33,15 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
     @Override
     public MovieViewHoler onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.top_rated_card_view, parent, false);
+        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.top_rated_card_view, parent, false);
         return new MovieViewHoler(view);
     }
 
     @Override
     public void onBindViewHolder(final MovieViewHoler holder, final int position) {
-        PictureDownloadHandler pictureDownloadHendler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
-        pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
+        PictureDownloadHandler pictureDownloadHandler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
+        pictureDownloadHandler.GetImageFromURL(new GetPictureCallBack() {
             @Override
             public void onPictureLoaded(RequestCreator requestCreator) {
                 requestCreator.into(holder.moviePicture);
@@ -51,10 +52,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
             }
         });
-
        holder.nameOfMovie.setText(listOfMovies.get(position).getTitle());
-
-
     }
 
     @Override

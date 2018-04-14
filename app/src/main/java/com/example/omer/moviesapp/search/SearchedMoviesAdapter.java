@@ -29,14 +29,14 @@ import java.util.List;
 
 public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAdapter.ViewHolder> {
 
-    RecyclerView recyclerView;
-    List<Movie> listOfMovies;
-    Context context;
+    private RecyclerView recyclerView;
+    private List<Movie> listOfMovies;
+    private Context context;
     URL url;
-    int mExpandedPosition = -1;
+    private int mExpandedPosition = -1;
 
 
-    public SearchedMoviesAdapter(Context context, List<Movie> list, RecyclerView recyclerView) {
+    SearchedMoviesAdapter(Context context, List<Movie> list, RecyclerView recyclerView) {
         listOfMovies = list;
         this.context = context;
         this.recyclerView = recyclerView;
@@ -49,9 +49,9 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        PictureDownloadHandler pictureDownloadHendler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
-        pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        PictureDownloadHandler pictureDownloadHandler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
+        pictureDownloadHandler.GetImageFromURL(new GetPictureCallBack() {
             @Override
             public void onPictureLoaded(RequestCreator requestCreator) {
                 requestCreator.into(holder.moviePicutre);
@@ -83,12 +83,13 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
         holder.titleText.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
         holder.itemView.setActivated(isExpanded);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                mExpandedPosition = isExpanded ? -1 : position;
-                TransitionManager.beginDelayedTransition(recyclerView);
-                notifyItemChanged(position);
+                mExpandedPosition = isExpanded ? -1 : holder.getAdapterPosition();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    TransitionManager.beginDelayedTransition(recyclerView);
+                }
+                notifyItemChanged(holder.getAdapterPosition());
             }
         });
     }
@@ -100,14 +101,14 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleText;
-        public TextView titleTextOfInformation;
-        public TextView movie_information;
-        public ImageView moviePicutre;
+        TextView titleText;
+        TextView titleTextOfInformation;
+        TextView movie_information;
+        ImageView moviePicutre;
         public View view;
         private ToggleButton toggleButton;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             titleText = (TextView) itemView.findViewById(R.id.movie_title);
             movie_information = (TextView) itemView.findViewById(R.id.movie_information);
