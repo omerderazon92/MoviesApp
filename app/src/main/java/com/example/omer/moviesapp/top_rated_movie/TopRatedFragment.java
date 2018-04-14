@@ -33,8 +33,10 @@ public class TopRatedFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    MoviesRepository moviesRepository;
+
     public TopRatedFragment() {
-        // Required empty public constructor
+        this.moviesRepository = null;
     }
 
 
@@ -42,7 +44,16 @@ public class TopRatedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_top_rated, container, false);
+        final View inflate = inflater.inflate(R.layout.fragment_top_rated, container, false);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(MOVIE_DATABASE_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ServerCall serverCall = retrofit.create(ServerCall.class);
+
+        final MoviesRepository moviesRepository = new MoviesRepository(serverCall);
+        return inflate;
     }
 
     @Override
@@ -55,7 +66,7 @@ public class TopRatedFragment extends Fragment {
 
         ServerCall serverCall = retrofit.create(ServerCall.class);
 
-        final MoviesRepository moviesRepository = new MoviesRepository(serverCall);
+        moviesRepository = new MoviesRepository(serverCall);
         moviesRepository.getTopRatedMovie(new GetMoviesCallback() {
             @Override
             public void onMoviesReceived(List<Movie> movies) {

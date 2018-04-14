@@ -49,7 +49,7 @@ public class SearchedMoviesAdapter extends RecyclerView.Adapter<SearchedMoviesAd
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
 
-        PictureDownloadHendler pictureDownloadHendler = new PictureDownloadHendler(listOfMovies.get(position).getPosterPath(), context);
+        PictureDownloadHandler pictureDownloadHendler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
         pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
             @Override
             public void onPictureLoaded(RequestCreator requestCreator) {

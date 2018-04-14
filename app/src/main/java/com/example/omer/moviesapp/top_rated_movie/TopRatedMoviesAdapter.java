@@ -9,11 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.omer.moviesapp.GetPictureCallBack;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
-import com.example.omer.moviesapp.search.PictureDownloadHendler;
+import com.example.omer.moviesapp.search.PictureDownloadHandler;
 import com.squareup.picasso.RequestCreator;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final MovieViewHoler holder, final int position) {
-        PictureDownloadHendler pictureDownloadHendler = new PictureDownloadHendler(listOfMovies.get(position).getPosterPath(), context);
+        PictureDownloadHandler pictureDownloadHendler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
         pictureDownloadHendler.GetImageFromURL(new GetPictureCallBack() {
             @Override
             public void onPictureLoaded(RequestCreator requestCreator) {
@@ -54,6 +55,8 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
             }
         });
 
+       holder.nameOfMovie.setText(listOfMovies.get(position).getTitle());
+
 
     }
 
@@ -65,10 +68,12 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
     public class MovieViewHoler extends RecyclerView.ViewHolder {
 
         ImageView moviePicture;
+        TextView nameOfMovie;
 
         public MovieViewHoler(View itemView) {
             super(itemView);
             moviePicture = itemView.findViewById(R.id.movie_top_rated);
+            nameOfMovie = itemView.findViewById(R.id.name_of_movie);
         }
     }
 }
