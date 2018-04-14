@@ -7,16 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-/**
- * Created by Omer on 14/04/2018.
- */
-
 public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
     private int mItemOffset;
 
     public ItemOffsetDecoration(int itemOffset) {
-        mItemOffset = 2 * itemOffset;
+        mItemOffset = 3 * itemOffset;
     }
 
     public ItemOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
