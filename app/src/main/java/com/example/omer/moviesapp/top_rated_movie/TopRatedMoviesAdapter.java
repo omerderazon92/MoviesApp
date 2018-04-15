@@ -1,6 +1,7 @@
 package com.example.omer.moviesapp.top_rated_movie;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,7 +53,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
             }
         });
-       holder.nameOfMovie.setText(listOfMovies.get(position).getTitle());
+        holder.nameOfMovie.setText(listOfMovies.get(position).getTitle());
     }
 
     @Override
@@ -69,6 +70,9 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
             super(itemView);
             moviePicture = itemView.findViewById(R.id.movie_top_rated);
             nameOfMovie = itemView.findViewById(R.id.name_of_movie);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                moviePicture.setTranslationZ((float) 25);
+            }
         }
     }
 }
