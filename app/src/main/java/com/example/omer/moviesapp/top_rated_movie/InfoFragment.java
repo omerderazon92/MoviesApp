@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import com.squareup.picasso.RequestCreator;
 
 public class InfoFragment extends Fragment {
 
-    ImageView moviePicture;
+    ImageView moviePicture, imageOfBar;
     TextView information, title;
 
     public InfoFragment() {
@@ -36,6 +37,8 @@ public class InfoFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
         }
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
     @Nullable
@@ -49,10 +52,12 @@ public class InfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         moviePicture = view.findViewById(R.id.image_of_info);
         information = view.findViewById(R.id.movie_information_fragment);
+        imageOfBar = view.findViewById(R.id.image_of_bar);
         title = view.findViewById(R.id.title_movie_inormation);
 
         String transitionName = getArguments().getString("transitionName");
         final Movie movie = (Movie) getArguments().getSerializable("movie");
+
 
         PictureDownloadHandler pdh = new PictureDownloadHandler(getArguments().getString("posterPath"), InfoFragment.this.getContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -62,6 +67,7 @@ public class InfoFragment extends Fragment {
             @Override
             public void onPictureLoaded(RequestCreator requestCreator) {
                 requestCreator.into(moviePicture);
+                requestCreator.into(imageOfBar);
                 startPostponedEnterTransition();
                 Animation fadeInAnimation = AnimationUtils.loadAnimation((MainActivity) getContext(), android.R.anim.fade_in);
                 title.setText(movie.getTitle());
