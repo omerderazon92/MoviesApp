@@ -1,9 +1,10 @@
 package com.example.omer.moviesapp.search;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.omer.moviesapp.GetMoviesCallback;
+import com.example.omer.moviesapp.MainActivity;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.MoviesRepository;
 import com.example.omer.moviesapp.MoviesServiceProvider;
@@ -35,6 +37,8 @@ public class SearchFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         moviesRepository = new MoviesRepository(MoviesServiceProvider.getMoviesService());
+
+
     }
 
     @Override
@@ -57,9 +61,15 @@ public class SearchFragment extends Fragment {
                 moviesRepository.getListOfMovies(keyWordsToSearch, new GetMoviesCallback() {
                     @Override
                     public void onMoviesReceived(List<Movie> movies) {
-                        Intent intent = new Intent(SearchFragment.this.getContext(), ListOfMoviesAcitivity.class);
-                        intent.putExtra("list", (Serializable) movies);
-                        startActivity(intent);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("list", (Serializable) movies);
+                        Fragment listOfMoviesFragment = new ListOfMoviesFragment();
+                        FragmentManager fm = ((MainActivity) getContext()).getSupportFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        listOfMoviesFragment.setArguments(bundle);
+                        ft.replace(R.id.fragment_container, listOfMoviesFragment);
+                        ft.addToBackStack(null);
+                        ft.commit();
                     }
 
                     @Override
@@ -69,5 +79,6 @@ public class SearchFragment extends Fragment {
                 });
             }
         });
+
     }
 }

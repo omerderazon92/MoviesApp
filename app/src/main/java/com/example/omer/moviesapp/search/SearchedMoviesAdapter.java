@@ -2,7 +2,6 @@ package com.example.omer.moviesapp.search;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;

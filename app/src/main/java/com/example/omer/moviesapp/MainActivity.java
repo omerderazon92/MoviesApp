@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.navigation_menu);
         bottomNavigationView.setSelectedItemId(R.id.menu_top_rated);
 
+
         Fragment topRatedFragment = new TopRatedFragment();
         FragmentManager fm = getSupportFragmentManager();
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
                         FragmentTransaction ft = fm.beginTransaction();
                         ft.replace(R.id.fragment_container, searchFragment);
+                        ft.addToBackStack(null);
                         ft.commit();
                         break;
                     case R.id.menu_fav:
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
                         FragmentTransaction ft2 = fm2.beginTransaction();
                         ft2.replace(R.id.fragment_container, topRatedFragment);
+                        ft2.addToBackStack(null);
                         ft2.commit();
                         break;
                 }

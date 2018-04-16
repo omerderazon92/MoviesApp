@@ -2,7 +2,11 @@ package com.example.omer.moviesapp.top_rated_movie;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.omer.moviesapp.GetPictureCallBack;
+import com.example.omer.moviesapp.MainActivity;
 import com.example.omer.moviesapp.Movie;
 import com.example.omer.moviesapp.R;
 import com.example.omer.moviesapp.search.PictureDownloadHandler;
@@ -22,10 +27,10 @@ import java.util.List;
  * Created by Omer on 12/04/2018.
  */
 
-public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAdapter.MovieViewHoler> {
+public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAdapter.MovieViewHolder> {
     List<Movie> listOfMovies;
     Context context;
-    Fragment newFragment = new InfoOfMovieFragment();
+
 
     public TopRatedMoviesAdapter(List<Movie> list, Context context) {
         this.listOfMovies = list;
@@ -33,14 +38,14 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
     }
 
     @Override
-    public MovieViewHoler onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.top_rated_card_view, parent, false);
-        return new MovieViewHoler(view);
+        return new MovieViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MovieViewHoler holder, final int position) {
+    public void onBindViewHolder(final MovieViewHolder holder, final int position) {
         PictureDownloadHandler pictureDownloadHandler = new PictureDownloadHandler(listOfMovies.get(position).getPosterPath(), context);
         pictureDownloadHandler.GetImageFromURL(new GetPictureCallBack() {
             @Override
@@ -53,7 +58,32 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
             }
         });
+
+        ViewCompat.setTransitionName(holder.moviePicture, "transition" + position);
+
+
         holder.nameOfMovie.setText(listOfMovies.get(position).getTitle());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("posterPath", listOfMovies.get(position).getPosterPath());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    bundle.putString("transitionName", holder.moviePicture.getTransitionName());
+                }
+                bundle.putSerializable("movie", listOfMovies.get(position));
+                Fragment infoFragment = new InfoFragment();
+                infoFragment.setArguments(bundle);
+                FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragment_container, infoFragment);
+                ft.addSharedElement(holder.moviePicture, holder.moviePicture.getTransitionName());
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
     }
 
     @Override
@@ -61,18 +91,16 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
         return listOfMovies.size();
     }
 
-    public class MovieViewHoler extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
 
         ImageView moviePicture;
         TextView nameOfMovie;
 
-        public MovieViewHoler(View itemView) {
+        public MovieViewHolder(View itemView) {
             super(itemView);
             moviePicture = itemView.findViewById(R.id.movie_top_rated);
             nameOfMovie = itemView.findViewById(R.id.name_of_movie);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                moviePicture.setTranslationZ((float) 25);
-            }
+
         }
     }
 }
